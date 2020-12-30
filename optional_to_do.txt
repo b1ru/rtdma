@@ -1,2 +1,4 @@
 * getT() and getR() return references of mutable objects. That breaks encapsulation.
 Fix it by returning clones of those objects instead.
+
+* Catch IOException on Main.main() instead of throwing it.
