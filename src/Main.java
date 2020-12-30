@@ -8,7 +8,7 @@ public class Main {
 
     private static Random rand = new Random();              // random number generator
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         // choose configuration
         //   1: transmitter can be tuned to 2 channels, 2 receivers
         //   2: transmitter can be tuned to 1 channel,  4 receivers
@@ -52,7 +52,13 @@ public class Main {
         // start the simulation
         for (int slot=1; slot<=numberOfSlots; slot++){
             // start all threads
+            for (int i=0; i<nodes.length; i++){
+                nodes[i].start();
+            }
             // wait all threads to finish
+            for (int i=0; i<nodes.length; i++){
+                nodes[i].join();
+            }
         }
     }
 
