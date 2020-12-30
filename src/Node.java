@@ -16,7 +16,23 @@ public class Node extends Thread {
     }
 
     public void run(){
+        // run the slot transmission algorithm
 
+        // initialize the set of all the channels
+        Set<Integer> channels = new HashSet<>();
+        for (int channel=1; channel<=Main.getNumberOfChannels(); channel++){
+            channels.add(channel);
+        }
+        // make the transmission
+
+    }
+
+    public Set<Integer> getT() {
+        return T;
+    }
+
+    public Set<Integer> getR() {
+        return R;
     }
 
     private void configure(int id, int configuration){
