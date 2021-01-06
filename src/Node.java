@@ -11,6 +11,7 @@ public class Node {
     private int bufferSize;
     private double l;                               // packet generation probability
     private double[] d;                             // destination probabilities
+    private int id;
 
     public Node(int id, int configuration, long seed, int bufferSize, double systemLoad){
         queue = new LinkedList<>();
@@ -19,6 +20,7 @@ public class Node {
         rand = new Random(seed);
         this.slotDuration = slotDuration;
         this.bufferSize = bufferSize;
+        this.id = id;
         l = id * systemLoad / 36;
         d = new double[Main.getNumberOfNodes()];
         int N = Main.getNumberOfNodes();
@@ -178,6 +180,21 @@ public class Node {
         //////////////////
         // TRANSMISSION //
         //////////////////
+
+
+        if (trans[id] != -1) {
+            int channel = trans[id];
+            for (Packet packet : queue) {
+                // an o komvos tou destination tou <packet> exei receiver sto <channel> kane to transmission
+                int destination = packet.destination;
+                if (B.get(channel).contains(destination)){
+                    // do the transmission
+                    queue.remove(packet);
+                    break;
+                }
+            }
+        }
+
     }
 
     private int findDestination(){
