@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Node extends Thread {
+public class Node {
     private LinkedList<Packet> queue;               // the node's buffer
     private Set<Integer> T;                         // channels the node can transmit to
     private Set<Integer> R;                         // channels the node can receive from
@@ -8,38 +8,18 @@ public class Node extends Thread {
     private ArrayList<ArrayList<Integer>> B;
     private Random rand;                            // random number generator
     private long slotDuration;                      // timeslot duration
+    private int bufferSize;
+    private double l;                               // packet generation probability
 
-    public Node(int id, int configuration, long seed, long slotDuration){
+    public Node(int id, int configuration, long seed, int bufferSize, double systemLoad){
         queue = new LinkedList<>();
         T = new HashSet<>();
         R = new HashSet<>();
         rand = new Random(seed);
         this.slotDuration = slotDuration;
+        this.bufferSize = bufferSize;
+        l = id * systemLoad / 36;
         configure(id, configuration);
-    }
-
-    public void run(){
-        if (slotDuration==0){           // find slot duration and set it to main
-            long maxTime=0;
-            double factor=2;          // timeslot duration = ceil(factor * maximum slot time)
-            for (int slot=0; slot<Main.getNumberOfSlots(); slot++) {
-                long startTime = System.currentTimeMillis();
-                slotAction();
-                long time = System.currentTimeMillis() - startTime;
-                if (time > maxTime) {
-                    maxTime = time;
-                }
-            }
-            synchronized(this){
-                if (maxTime*factor > Main.getSlotDuration()){
-                    Main.setSlotDuration((long) Math.ceil(maxTime*factor));
-                }
-            }
-        } else{                     // do the actual simulation
-            for (int slot=0; slot<Main.getNumberOfSlots(); slot++){
-                slotAction();
-            }
-        }
     }
 
     public void setA(ArrayList<ArrayList<Integer>> A) {
