@@ -1,7 +1,7 @@
 public class Packet {
     int timeslot;
-    int bufferSize;
-    public Packet(int timeslot, int bufferSize) {
-        this.timeslot=timeslot;
+    int destination;
+    public Packet(int destination) {
+        this.destination = destination;
     }
 }

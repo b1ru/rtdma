@@ -10,6 +10,7 @@ public class Node {
     private long slotDuration;                      // timeslot duration
     private int bufferSize;
     private double l;                               // packet generation probability
+    private double[] d;                             // destination probabilities
 
     public Node(int id, int configuration, long seed, int bufferSize, double systemLoad){
         queue = new LinkedList<>();
@@ -19,6 +20,16 @@ public class Node {
         this.slotDuration = slotDuration;
         this.bufferSize = bufferSize;
         l = id * systemLoad / 36;
+        d = new double[Main.getNumberOfNodes()];
+        int N = Main.getNumberOfNodes();
+        for (int m=0; m<N; m++){
+            if (m==id){
+                d[m] = 0;
+            } else {
+                d[m] = m / (N * (N+1) / (2-id));
+            }
+
+        }
         configure(id, configuration);
     }
 
@@ -122,7 +133,11 @@ public class Node {
         ////////////////////
         // PACKET ARRIVAL //
         ////////////////////
-
+        boolean arrives = rand.nextDouble() < l;
+        if (arrives && queue.size() < bufferSize){
+            int destination = findDestination();
+            queue.add(new Packet(destination));
+        }
         //////////////////////////
         // Creating trans table //
         //////////////////////////
@@ -163,5 +178,18 @@ public class Node {
         //////////////////
         // TRANSMISSION //
         //////////////////
+    }
+
+    private int findDestination(){
+        int destination;
+        double p = Math.random();
+        double cumulativeProbability = 0.0;
+        for (int m=0; m<d.length; m++){
+            cumulativeProbability += d[m];
+            if (p <= cumulativeProbability){
+                return m;
+            }
+        }
+        return -1;
     }
 }
