@@ -4,7 +4,7 @@ import java.util.*;
 public class Main {
     private static final int numberOfNodes = 8;
     private static final int numberOfChannels = 4;
-    private static final int numberOfSlots = 100000;
+    private static final int numberOfSlots = 1;
     private static long slotDuration = 0;
 
     public static void main(String[] args){
@@ -12,12 +12,12 @@ public class Main {
         //   1: transmitter can be tuned to 2 channels, 2 receivers
         //   2: transmitter can be tuned to 1 channel,  4 receivers
         //   3: transmitter can be tuned to 4 channels, 1 receiver
-        int configuration = 1;
-        double b = 0.6; // system load
+        int configuration = 2;
+        double b = 0.8; // system load
         // create nodes
-        Node[] nodes = new Node[numberOfNodes];
-        for (int i=0; i<nodes.length; i++){
-            nodes[i] = new Node(i, configuration, 5, i+1, b);
+        Node[] nodes = new Node[numberOfNodes+1];
+        for (int i=1; i<= numberOfNodes; i++){
+            nodes[i] = new Node(i, configuration, 5, i, b);
         }
 
         // create A and B
@@ -27,14 +27,14 @@ public class Main {
         ArrayList<ArrayList<Integer>> B = new ArrayList<>();
 
         // Initialize A and B
-        for (int i=0; i<numberOfChannels; i++){
+        for (int i=0; i<=numberOfChannels; i++){
             A.add(new ArrayList<>());
             B.add(new ArrayList<>());
         }
 
         // find A and B
-        for (int i=0; i<A.size(); i++){
-            for (int j=0; j<nodes.length; j++){
+        for (int i=1; i<=numberOfChannels; i++){
+            for (int j=1; j<=numberOfNodes; j++){
                 if (nodes[j].getT().contains(i)){
                     A.get(i).add(j);
                 }
@@ -45,14 +45,22 @@ public class Main {
         }
 
         // pass A and B to all Nodes
-        for (int i=0; i<nodes.length; i++){
+        for (int i=1; i<=numberOfNodes; i++){
             nodes[i].setA(A);
             nodes[i].setB(B);
         }
 
         // start the simulation
-        for (int slot=0; slot<numberOfSlots; slot++){
-            // run the algo in each node
+        for (int i=0; i<numberOfSlots; i++){
+            //System.out.println("------- SLOT = " + i + "---------");
+            for (int j=1; j<= numberOfNodes; j++){
+                nodes[j].slotAction();
+            }
+            //System.out.println("------- SLOT = " + i + "---------");
+        }
+
+        for (int i=1; i<=numberOfNodes; i++){
+            System.out.println("Throughput of node " + i + ": "+ nodes[i].getTransmitted());
         }
     }
 
@@ -63,10 +71,4 @@ public class Main {
     public static int getNumberOfChannels() { return numberOfChannels; }
 
     public static int getNumberOfSlots() { return numberOfSlots; }
-
-    public static void setSlotDuration(long slotDuration) {
-        Main.slotDuration = slotDuration;
-    }
-
-    public static long getSlotDuration(){ return slotDuration; }
 }
