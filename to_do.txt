@@ -1,1 +1,0 @@
-* Στο simulation loop να χρησιμοποιώ το slot duration.
