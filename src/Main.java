@@ -13,7 +13,8 @@ public class Main {
         //   2: transmitter can be tuned to 1 channel,  4 receivers
         //   3: transmitter can be tuned to 4 channels, 1 receiver
         int configuration = 3;
-        long seed = new Random().nextLong();
+        //long seed = new Random().nextLong();
+        long seed = 5;
 
         // create nodes
         Node[] nodes = new Node[numberOfNodes + 1];
