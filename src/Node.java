@@ -7,12 +7,13 @@ public class Node {
     private ArrayList<ArrayList<Integer>> A;
     private ArrayList<ArrayList<Integer>> B;
     private Random rand;                            // random number generator
-    private int bufferSize;
+    private int bufferSize;                         // node's capacity of packets
     private double l;                               // packet generation probability
     private double[] d;                             // destination probabilities
     private int id;
     private int transmitted = 0;
     private int buffered = 0;
+    private int slotsWaited = 0;
 
     public Node(int id, int configuration, long seed, int bufferSize, double systemLoad){
         queue = new LinkedList<>();
@@ -129,7 +130,7 @@ public class Node {
         }
     }
 
-    public void slotAction(){
+    public void slotAction(int slot){
         ////////////////////
         // PACKET ARRIVAL //
         ////////////////////
@@ -139,7 +140,7 @@ public class Node {
             if (destination==-1){
                 System.exit(5);
             }
-            queue.add(new Packet(destination));
+            queue.add(new Packet(destination, slot));
             //System.out.println("+");
         } else if (arrives && queue.size() == bufferSize){
             //System.out.println("-");
@@ -209,6 +210,7 @@ public class Node {
                 int destination = packet.destination;
                 if (B.get(channel).contains(destination)){
                     // do the transmission
+                    slotsWaited += slot - packet.timeslot;
                     queue.remove(packet);
                     transmitted++;
                     break;
@@ -235,4 +237,6 @@ public class Node {
     }
 
     public int getBuffered(){ return buffered; }
+
+    public int getSlotsWaited(){ return slotsWaited; }
 }
