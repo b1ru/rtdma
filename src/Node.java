@@ -4,8 +4,8 @@ public class Node {
     private LinkedList<Packet> queue;               // the node's buffer
     private Set<Integer> T;                         // channels the node can transmit to
     private Set<Integer> R;                         // channels the node can receive from
-    public ArrayList<ArrayList<Integer>> A;
-    public ArrayList<ArrayList<Integer>> B;
+    private ArrayList<ArrayList<Integer>> A;
+    private ArrayList<ArrayList<Integer>> B;
     private Random rand;                            // random number generator
     private int bufferSize;                         // node's capacity of packets
     private double l;                               // packet generation probability
@@ -141,9 +141,8 @@ public class Node {
             }
             queue.add(new Packet(destination, slot));
             //System.out.println("+");
-        } else if (arrives && queue.size() == bufferSize){
-            //System.out.println("-");
         }
+
         //////////////////////////
         // Creating trans table //
         //////////////////////////
@@ -165,8 +164,7 @@ public class Node {
         for (int i = 0; i < A.size(); i++) {
             _A.add((ArrayList<Integer>) A.get(i).clone());
         }
-//        System.out.println("A=" + A);
-//        System.out.println("_A="+_A);
+
         // create trans table
         while (!channels.isEmpty()) {
             int k = channels.get(rand.nextInt(channels.size()));        // get a random channel, say channel k
@@ -182,30 +180,16 @@ public class Node {
             channels.remove((Integer) k);
         }
 
-
-//        System.out.print("d = [");
-//        for (int i=1; i < d.length ; i++){
-//            System.out.print(d[i] + " ");
-//        }
-//        System.out.println("]");
-
         buffered += queue.size();
         //////////////////
         // TRANSMISSION //
         //////////////////
 
-//        // print trans table
-//        System.out.print("trans=[");
-//        for (int i=0; i<trans.length; i++){
-//            System.out.print(trans[i]);
-//            System.out.print(" ");
-//        }
-        //System.out.println("]");
         if (trans[id] != 0) {
 
             int channel = trans[id];
             for (Packet packet : queue) {
-                // an o komvos tou destination tou <packet> exei receiver sto <channel> kane to transmission
+                // αν ο κόμβος του destination του <packet> έχει receiver στο <channel> κάνε το transmission
                 int destination = packet.destination;
                 if (B.get(channel).contains(destination)){
                     // do the transmission
@@ -239,7 +223,8 @@ public class Node {
 
     public int getSlotsWaited(){ return slotsWaited; }
 
-    public void changeSystemLoad(double systemLoad){
+    public void reset(double systemLoad){
+        // changes l, resets the counters, and clears the queue
         l = id * systemLoad / 36;
         transmitted = 0;
         buffered = 0;

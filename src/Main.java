@@ -57,7 +57,7 @@ public class Main {
             System.out.println("---------------- b = " + b + " --------------------");
 
             for (int i=1; i <= numberOfNodes; i++){
-                nodes[i].changeSystemLoad(b);
+                nodes[i].reset(b);
             }
 
 
@@ -68,6 +68,9 @@ public class Main {
                 }
             }
 
+            ///////////////
+            // get stats //
+            ///////////////
             double systemThroughput = 0;
             for (int i = 1; i <= numberOfNodes; i++) {
                 double nodeThroughput = (double) nodes[i].getTransmitted() / numberOfSlots;
