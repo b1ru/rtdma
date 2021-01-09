@@ -4,8 +4,8 @@ public class Node {
     private LinkedList<Packet> queue;               // the node's buffer
     private Set<Integer> T;                         // channels the node can transmit to
     private Set<Integer> R;                         // channels the node can receive from
-    private ArrayList<ArrayList<Integer>> A;
-    private ArrayList<ArrayList<Integer>> B;
+    public ArrayList<ArrayList<Integer>> A;
+    public ArrayList<ArrayList<Integer>> B;
     private Random rand;                            // random number generator
     private int bufferSize;                         // node's capacity of packets
     private double l;                               // packet generation probability
@@ -241,5 +241,8 @@ public class Node {
 
     public void changeSystemLoad(double systemLoad){
         l = id * systemLoad / 36;
+        transmitted = 0;
+        buffered = 0;
+        slotsWaited = 0;
     }
 }

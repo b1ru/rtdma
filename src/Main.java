@@ -12,7 +12,7 @@ public class Main {
         //   1: transmitter can be tuned to 2 channels, 2 receivers
         //   2: transmitter can be tuned to 1 channel,  4 receivers
         //   3: transmitter can be tuned to 4 channels, 1 receiver
-        int configuration = 2;
+        int configuration = 3;
         long seed = new Random().nextLong();
 
         // create nodes
@@ -58,6 +58,8 @@ public class Main {
             for (int i=1; i <= numberOfNodes; i++){
                 nodes[i].changeSystemLoad(b);
             }
+
+
 
             for (int i = 0; i < numberOfSlots; i++) {
                 for (int j = 1; j <= numberOfNodes; j++) {
