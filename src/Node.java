@@ -27,7 +27,7 @@ public class Node {
             if (m==id){
                 d[m] = 0;
             } else {
-                d[m] = (m * (2-id) ) / (N * (N+1));
+                d[m] = (double) m / (N*(N+1)/2 - id);
             }
         }
         configure(id, configuration);
@@ -129,86 +129,90 @@ public class Node {
     }
 
     public void slotAction(){
-        System.out.println("A=:" + A);
-        System.out.println("B=:" + B);
-//        ////////////////////
-//        // PACKET ARRIVAL //
-//        ////////////////////
-//        boolean arrives = rand.nextDouble() < l;
-//        if (arrives && queue.size() < bufferSize){
-//            int destination = findDestination();
-//            if (destination==-1){
-//                System.exit(5);
-//            }
-//            queue.add(new Packet(destination));
-//            //System.out.println("+");
-//        } else if (arrives && queue.size() == bufferSize){
-//            //System.out.println("-");
+        ////////////////////
+        // PACKET ARRIVAL //
+        ////////////////////
+        boolean arrives = rand.nextDouble() < l;
+        if (arrives && queue.size() < bufferSize){
+            int destination = findDestination();
+            if (destination==-1){
+                System.exit(5);
+            }
+            queue.add(new Packet(destination));
+            //System.out.println("+");
+        } else if (arrives && queue.size() == bufferSize){
+            //System.out.println("-");
+        }
+        //////////////////////////
+        // Creating trans table //
+        //////////////////////////
+
+        // Initialize the trans table
+        int[] trans = new int[Main.getNumberOfNodes() + 1];
+        for (int i = 1; i <= Main.getNumberOfNodes(); i++) {
+            trans[i] = 0;
+        }
+
+        // initialize channels ( Ω )
+        ArrayList<Integer> channels = new ArrayList<>();
+        for (int channel = 1; channel <= Main.getNumberOfChannels(); channel++) {
+            channels.add(channel);
+        }
+
+        // get a copy of A
+        ArrayList<ArrayList<Integer>> _A = new ArrayList<>();
+        for (int i = 0; i < A.size(); i++) {
+            _A.add((ArrayList<Integer>) A.get(i).clone());
+        }
+//        System.out.println("A=" + A);
+//        System.out.println("_A="+_A);
+        // create trans table
+        while (!channels.isEmpty()) {
+            int k = channels.get(rand.nextInt(channels.size()));        // get a random channel, say channel k
+            int i = _A.get(k).get(rand.nextInt(_A.get(k).size()));      // get a random node from _A[k], say node i
+            trans[i] = k;
+
+            // remove i from _A
+            for (int j = 1; j < _A.size(); j++) {
+                _A.get(j).remove((Integer) i);
+            }
+
+            // remove k from channels (Ω)
+            channels.remove((Integer) k);
+        }
+
+
+//        System.out.print("d = [");
+//        for (int i=1; i < d.length ; i++){
+//            System.out.print(d[i] + " ");
 //        }
-//        //////////////////////////
-//        // Creating trans table //
-//        //////////////////////////
-//
-//        // Initialize the trans table
-//        int[] trans = new int[Main.getNumberOfNodes()];
-//        for (int i = 0; i < trans.length; i++) {
-//            trans[i] = -1;
+//        System.out.println("]");
+        //////////////////
+        // TRANSMISSION //
+        //////////////////
+
+//        // print trans table
+//        System.out.print("trans=[");
+//        for (int i=0; i<trans.length; i++){
+//            System.out.print(trans[i]);
+//            System.out.print(" ");
 //        }
-//
-//        // initialize channels ( Ω )
-//        ArrayList<Integer> channels = new ArrayList<>();
-//        for (int channel = 0; channel < Main.getNumberOfChannels(); channel++) {
-//            channels.add(channel);
-//        }
-//
-//        // get a copy of A
-//        ArrayList<ArrayList<Integer>> _A = new ArrayList<>();
-//        for (int i = 0; i < A.size(); i++) {
-//            _A.add((ArrayList<Integer>) A.get(i).clone());
-//        }
-//
-//        // create trans table
-//        while (!channels.isEmpty()) {
-//            int k = channels.get(rand.nextInt(channels.size()));        // get a random channel, say channel k
-//            int i = _A.get(k).get(rand.nextInt(_A.get(k).size()));      // get a random node from _A[k], say node i
-//            trans[i] = k;
-//
-//            // remove i from _A
-//            for (int j = 0; j < _A.size(); j++) {
-//                _A.get(j).remove((Integer) i);
-//            }
-//
-//            // remove k from channels (Ω)
-//            channels.remove((Integer) k);
-//        }
-//
-//        //////////////////
-//        // TRANSMISSION //
-//        //////////////////
-//
-////        // print trans table
-////        System.out.print("trans=[");
-////        for (int i=0; i<trans.length; i++){
-////            System.out.print(trans[i]);
-////            System.out.print(" ");
-////        }
-//        //System.out.println("]");
-//        if (trans[id] != -1) {
-//
-//            int channel = trans[id];
-//            for (Packet packet : queue) {
-//                // an o komvos tou destination tou <packet> exei receiver sto <channel> kane to transmission
-//                int destination = packet.destination;
-//                if (B.get(channel).contains(destination)){
-//                    // do the transmission
-//                    System.out.println("TRANSMISSION");
-//                    queue.remove(packet);
-//                    transmitted++;
-//                    break;
-//                }
-//            }
-//        }
-//
+        //System.out.println("]");
+        if (trans[id] != 0) {
+
+            int channel = trans[id];
+            for (Packet packet : queue) {
+                // an o komvos tou destination tou <packet> exei receiver sto <channel> kane to transmission
+                int destination = packet.destination;
+                if (B.get(channel).contains(destination)){
+                    // do the transmission
+                    queue.remove(packet);
+                    transmitted++;
+                    break;
+                }
+            }
+        }
+
     }
 
     private int findDestination() {
