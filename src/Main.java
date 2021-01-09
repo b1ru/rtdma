@@ -4,7 +4,7 @@ import java.util.*;
 public class Main {
     private static final int numberOfNodes = 8;
     private static final int numberOfChannels = 4;
-    private static final int numberOfSlots = 1000000;
+    private static final int numberOfSlots = 100000;
     private static long slotDuration = 0;
 
     public static void main(String[] args){
