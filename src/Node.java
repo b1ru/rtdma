@@ -12,6 +12,7 @@ public class Node {
     private double[] d;                             // destination probabilities
     private int id;
     private int transmitted = 0;
+    private int buffered = 0;
 
     public Node(int id, int configuration, long seed, int bufferSize, double systemLoad){
         queue = new LinkedList<>();
@@ -187,6 +188,8 @@ public class Node {
 //            System.out.print(d[i] + " ");
 //        }
 //        System.out.println("]");
+
+        buffered += queue.size();
         //////////////////
         // TRANSMISSION //
         //////////////////
@@ -230,4 +233,6 @@ public class Node {
     public int getTransmitted(){
         return transmitted;
     }
+
+    public int getBuffered(){ return buffered; }
 }

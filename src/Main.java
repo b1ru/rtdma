@@ -67,6 +67,8 @@ public class Main {
                 double nodeThroughput = (double) nodes[i].getTransmitted() / numberOfSlots;
                 System.out.println("Throughput of node " + i + ": " + nodeThroughput);
                 systemThroughput += nodeThroughput;
+                System.out.println("Buffered packets on average of node " + i + ": " +
+                        ((double) nodes[i].getBuffered() / numberOfSlots));
             }
             System.out.println("---------------------------------------------");
             System.out.println("System's throughput: " + systemThroughput);
