@@ -244,5 +244,6 @@ public class Node {
         transmitted = 0;
         buffered = 0;
         slotsWaited = 0;
+        queue.clear();
     }
 }
