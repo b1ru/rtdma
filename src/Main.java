@@ -1,3 +1,4 @@
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
@@ -7,7 +8,7 @@ public class Main {
     private static final int numberOfSlots = 100000;
     private static long slotDuration = 0;
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException {
         // choose configuration
         //   1: transmitter can be tuned to 2 channels, 2 receivers
         //   2: transmitter can be tuned to 1 channel,  4 receivers
@@ -52,6 +53,11 @@ public class Main {
             nodes[i].setB(B);
         }
 
+
+        FileWriter fout = new FileWriter("stats.csv");
+        fout.write("TP,Q,D\n");
+
+
         // start the simulation
         for (double b=0.2 ; b<=1; b+=0.2) {
             System.out.println("---------------- b = " + b + " --------------------");
@@ -74,16 +80,27 @@ public class Main {
             double systemThroughput = 0;
             for (int i = 1; i <= numberOfNodes; i++) {
                 double nodeThroughput = (double) nodes[i].getTransmitted() / numberOfSlots;
+                fout.write(String.valueOf(nodeThroughput));
+                fout.write(',');
                 System.out.println("Throughput of node " + i + ": " + nodeThroughput);
+
                 systemThroughput += nodeThroughput;
                 System.out.println("Buffered packets on average of node " + i + ": " +
                         ((double) nodes[i].getBuffered() / numberOfSlots));
+                fout.write(String.valueOf((double) nodes[i].getBuffered() / numberOfSlots));
+                fout.write(',');
                 System.out.println("Average packet delay of node " + i + ": " +
                         (double) nodes[i].getSlotsWaited() / nodes[i].getTransmitted());
+                fout.write(String.valueOf((double) nodes[i].getSlotsWaited() / nodes[i].getTransmitted()));
+                fout.write('\n');
             }
             System.out.println("---------------------------------------------");
             System.out.println("System's throughput: " + systemThroughput);
+
+
+
         }
+        fout.close();
     }
 
     public static int getNumberOfNodes(){
