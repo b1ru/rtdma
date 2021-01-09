@@ -15,14 +15,13 @@ public class Node {
     private int buffered = 0;
     private int slotsWaited = 0;
 
-    public Node(int id, int configuration, long seed, int bufferSize, double systemLoad){
+    public Node(int id, int configuration, long seed, int bufferSize){
         queue = new LinkedList<>();
         T = new HashSet<>();
         R = new HashSet<>();
         rand = new Random(seed);
         this.bufferSize = bufferSize;
         this.id = id;
-        l = id * systemLoad / 36;
         int N = Main.getNumberOfNodes();
         d = new double[N+1];
         for (int m=1; m<=N; m++){
@@ -239,4 +238,8 @@ public class Node {
     public int getBuffered(){ return buffered; }
 
     public int getSlotsWaited(){ return slotsWaited; }
+
+    public void changeSystemLoad(double systemLoad){
+        l = id * systemLoad / 36;
+    }
 }
