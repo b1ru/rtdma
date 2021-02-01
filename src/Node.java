@@ -11,26 +11,17 @@ public class Node {
     private double l;                               // packet generation probability
     private double[] d;                             // destination probabilities
     private int id;
-    private int transmitted = 0;
-    private int buffered = 0;
-    private int slotsWaited = 0;
+    private int transmitted;
+    private int buffered ;
+    private int slotsWaited;
 
-    public Node(int id, int configuration, long seed, int bufferSize){
+    public Node(int id, int configuration, long seed){
         queue = new LinkedList<>();
         T = new HashSet<>();
         R = new HashSet<>();
         rand = new Random(seed);
-        this.bufferSize = bufferSize;
         this.id = id;
-        int N = Main.getNumberOfNodes();
-        d = new double[N+1];
-        for (int m=1; m<=N; m++){
-            if (m==id){
-                d[m] = 0;
-            } else {
-                d[m] = (double) m / (N*(N+1)/2 - id);
-            }
-        }
+        d = new double[Main.getNumberOfNodes()+1];
         configure(id, configuration);
     }
 
@@ -140,7 +131,6 @@ public class Node {
                 System.exit(5);
             }
             queue.add(new Packet(destination, slot));
-            //System.out.println("+");
         }
 
         //////////////////////////
@@ -225,10 +215,45 @@ public class Node {
 
     public void reset(double systemLoad){
         // changes l, resets the counters, and clears the queue
-        l = id * systemLoad / 36;
+
+        if (Main.getValidation()){
+            l = id * systemLoad / 36;
+        } else {
+            l = systemLoad / Main.getNumberOfNodes();
+        }
+
         transmitted = 0;
         buffered = 0;
         slotsWaited = 0;
         queue.clear();
+    }
+
+    public void setD(boolean validation){
+        int N = Main.getNumberOfNodes();
+        if (validation){
+            for (int m=1; m<=N; m++){
+                if (m==id){
+                    d[m] = 0;
+                } else {
+                    d[m] = (double) m / (N*(N+1)/2 - id);
+                }
+            }
+        } else {
+            for (int m=1; m<=N; m++){
+                if (m==id){
+                    d[m] = 0;
+                } else {
+                    d[m] = (double) 1 / (N-1);
+                }
+            }
+        }
+    }
+
+    public void setBufferSize(boolean validation){
+        if (validation){
+            bufferSize = id;
+        } else {
+            bufferSize = 4;
+        }
     }
 }

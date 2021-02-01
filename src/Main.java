@@ -7,20 +7,24 @@ public class Main {
     private static final int numberOfChannels = 4;
     private static final int numberOfSlots = 100000;
     private static long slotDuration = 0;
+    private static Node[] nodes;
+    private static boolean validation;
+    private static FileWriter out1;
+    private static FileWriter out2;
 
     public static void main(String[] args) throws IOException {
         // choose configuration
         //   1: transmitter can be tuned to 2 channels, 2 receivers
         //   2: transmitter can be tuned to 1 channel,  4 receivers
         //   3: transmitter can be tuned to 4 channels, 1 receiver
-        int configuration = 3;
+        int configuration = 2;
         //long seed = new Random().nextLong();
         long seed = 5;
 
         // create nodes
-        Node[] nodes = new Node[numberOfNodes + 1];
+        nodes = new Node[numberOfNodes + 1];
         for (int i = 1; i <= numberOfNodes; i++) {
-            nodes[i] = new Node(i, configuration, seed, i);
+            nodes[i] = new Node(i, configuration, seed);
         }
 
         // create A and B
@@ -54,53 +58,35 @@ public class Main {
         }
 
 
-        FileWriter fout = new FileWriter("stats.csv");
-        fout.write("TP,Q,D\n");
-
-
-        // start the simulation
-        for (double b=0.2 ; b<=1; b+=0.2) {
-            System.out.println("---------------- b = " + b + " --------------------");
-
-            for (int i=1; i <= numberOfNodes; i++){
-                nodes[i].reset(b);
-            }
-
-
-
-            for (int i = 0; i < numberOfSlots; i++) {
-                for (int j = 1; j <= numberOfNodes; j++) {
-                    nodes[j].slotAction(i);
-                }
-            }
-
-            ///////////////
-            // get stats //
-            ///////////////
-            double systemThroughput = 0;
-            for (int i = 1; i <= numberOfNodes; i++) {
-                double nodeThroughput = (double) nodes[i].getTransmitted() / numberOfSlots;
-                fout.write(String.valueOf(nodeThroughput));
-                fout.write(',');
-                System.out.println("Throughput of node " + i + ": " + nodeThroughput);
-
-                systemThroughput += nodeThroughput;
-                System.out.println("Buffered packets on average of node " + i + ": " +
-                        ((double) nodes[i].getBuffered() / numberOfSlots));
-                fout.write(String.valueOf((double) nodes[i].getBuffered() / numberOfSlots));
-                fout.write(',');
-                System.out.println("Average packet delay of node " + i + ": " +
-                        (double) nodes[i].getSlotsWaited() / nodes[i].getTransmitted());
-                fout.write(String.valueOf((double) nodes[i].getSlotsWaited() / nodes[i].getTransmitted()));
-                fout.write('\n');
-            }
-            System.out.println("---------------------------------------------");
-            System.out.println("System's throughput: " + systemThroughput);
-
-
-
+        if (configuration==1){
+            out1 = new FileWriter("validation1.csv");
+            out2 = new FileWriter("performance1.csv");
+        } else if (configuration==2){
+            out1 = new FileWriter("validation2.csv");
+            out2 = new FileWriter("performance2.csv");
+        } else if(configuration==3) {
+            out1 = new FileWriter("validation3.csv");
+            out2 = new FileWriter("performance3.csv");
         }
-        fout.close();
+        out1.write("TP,Q,D\n");
+        out2.write("TP,D\n");
+
+        validation=true;
+        for (int i = 1; i <= numberOfNodes; i++) {
+            nodes[i].setD(validation);
+            nodes[i].setBufferSize(validation);
+        }
+        simulate();
+
+        validation=false;
+        for (int i = 1; i <= numberOfNodes; i++) {
+            nodes[i].setD(validation);
+            nodes[i].setBufferSize(validation);
+        }
+        simulate();
+
+        out1.close();
+        out2.close();
     }
 
     public static int getNumberOfNodes(){
@@ -110,4 +96,67 @@ public class Main {
     public static int getNumberOfChannels() { return numberOfChannels; }
 
     public static int getNumberOfSlots() { return numberOfSlots; }
+
+    private static void simulate() throws IOException {
+        double from, to, step;
+        if (validation){
+            from = 0.2;
+            to = 1;
+            step = 0.2;
+            System.out.println("##############\n# VALIDATION #\n##############");
+        } else {
+            from = 0.5;
+            to = 8;
+            step = 0.5;
+            System.out.println("###############\n# PERFORMANCE #\n###############");
+        }
+        System.out.println(from + " ≤ b ≤ " + to);
+
+        for (double b=from ; b<=to; b+=step) {
+            System.out.printf("b=%.1f\n",b);
+
+            // reset nodes for each b
+            for (int i=1; i <= numberOfNodes; i++){
+                nodes[i].reset(b);
+            }
+
+            // actual simulation
+            for (int i = 0; i < numberOfSlots; i++) {
+                for (int j = 1; j <= numberOfNodes; j++) {
+                    nodes[j].slotAction(i);
+                }
+            }
+
+            // get stats
+            double systemThroughput = 0;
+            double averageDelay = 0;
+            for (int i = 1; i <= numberOfNodes; i++) {
+                double nodeThroughput = (double) nodes[i].getTransmitted() / numberOfSlots;
+                systemThroughput += nodeThroughput;
+
+                double nodeDelay = (double) nodes[i].getSlotsWaited() / nodes[i].getTransmitted();
+                averageDelay += nodeDelay;
+
+                double nodeBuffered = (double) nodes[i].getBuffered() / numberOfSlots;
+
+                if (validation){
+                    out1.write(String.valueOf(nodeThroughput));
+                    out1.write(',');
+                    out1.write(String.valueOf(nodeBuffered));
+                    out1.write(',');
+                    out1.write(String.valueOf(nodeDelay));
+                    out1.write('\n');
+                }
+            }
+            averageDelay /= numberOfNodes;
+            if (!validation){
+                out2.write(String.valueOf(systemThroughput));
+                out2.write(',');
+                out2.write(String.valueOf(averageDelay));
+                out2.write('\n');
+            }
+        }
+    }
+
+    public static boolean getValidation(){ return validation; };
 }
