@@ -44,7 +44,7 @@
 | *int* id | Το id του κόμβου |
 | *int* transmitted | Ο αριθμός των πακέτων που μεταδόθηκαν από αυτόν τον κόμβο |
 | *int* buffered | Μετράεω πόσα πακέτα είναι στον buffer σε κάθε timeslot <br> Το άθροισμα για όλα τα timeslots είναι το **buffered** |
-| *int* slotsWaited | Μετράω πόσα timeslots περιμένει ένα πακέτο στον buffer <br> Το άθροισμα για όλα τα πακέτα που μεταδώθηκαν είναι το **buffered**|
+| *int* slotsWaited | Μετράω πόσα timeslots περιμένει ένα πακέτο στον buffer <br> Το άθροισμα για όλα τα πακέτα που μεταδώθηκαν είναι το **slotsWaited**|
 
 
 
