@@ -15,8 +15,8 @@
 
 | Μεταβλητή   | Περιγραφή |
 | ---------   | --------- |
-| destination | ο προορισμός του πακέτου |
-| timeslot    | τo timeslot δημιουργήθηκε το πακέτο |
+| *int* destination | ο προορισμός του πακέτου |
+| *int* timeslot    | τo timeslot δημιουργήθηκε το πακέτο |
 
 <br>
 
@@ -42,3 +42,12 @@
 | *boolean* validation | Αν θέλουμε να τρέξουμε την 'validation' προσομοίωση ή την 'performance' προσομοίωση όπως αναγράφονται στο paper |
 | *FileWriter* out1 | Το stream για τα csv αρχεία της validation προσομοίωσης |
 | *FileWriter* out1 | Το stream για τα csv αρχεία της performance προσομοίωσης |
+
+##### Μέθοδοι
+| Mέθοδος | Περιγραφή |
+| ------- | --------- |
+| *void* main(*String[]* args) | Διαλέγουμε ποιο από τα 3 συστήματα θέλουμε να προσομοιώσουμε <br> Αφού γίνουν οι κατάλληλες αρχικοποιήσεις γίνεται η προσομοίωση για το επιλεγμένο σύστημα μέσω της simulate()|
+| *void* simulate() | Γίνονται οι 'validation' και 'performance' προσομοιώσεις χρησμιοποιώντας την Node.slotAction() και γράφονται τα δεδομένα στα .csv αρχεία |
+| *int* getNumberOfNodes() | numberOfNodes getter |
+| *int* getNumberOfChannels() | numberOfChannels getter |
+| *boolean* getValidation() | validation getter |
