@@ -46,6 +46,26 @@
 | *int* buffered | Μετράεω πόσα πακέτα είναι στον buffer σε κάθε timeslot <br> Το άθροισμα για όλα τα timeslots είναι το **buffered** |
 | *int* slotsWaited | Μετράω πόσα timeslots περιμένει ένα πακέτο στον buffer <br> Το άθροισμα για όλα τα πακέτα που μεταδώθηκαν είναι το **buffered**|
 
+##### Μέθοδοι
+
+| Mέθοδος | Περιγραφή |
+| ------- | --------- |
+| Node(*int* id, *int* configuration, *long* seed) | Constructor <br> Αρχικοποιεί τιμές και ρυθμίζει τον κόμβο ανάλογα το επιλεγμένο σύστημα μέσω της configure()|
+| *void* configure(*int* id, *int* configuration) | Δίνει τιμές στο transmission range **T** και στο receiving range **R** του κόμβου |
+| *void* slotAction(*int* slot) | Ο αλγόριθμος που εκτελεί ο κόμβος σε ένα timeslot |
+| *int* findDestination() | Επιστρέφει έναν τυχαίο κόμβο για προορισμό |
+| *void* reset(double systemLoad) | Δίνει τιμή στο l ανάλογα το είδος της προσομοίωσης <br> Μηδενίζει τους counters <br> Αδειάζει τον buffer <br> Καλείται από την Main.main() για κάθε τιμή του b |
+| *void* setD(*boolean* validation) | Δίνει τιμές στον πίνακα d ανάλογα το είδος της προσομοίωσης |
+| *void* setBufferSize(*boolean* validation) | Δίνει τιμή στο bufferSize ανάλογα το είδος της προσομοίωσης|
+| *void* setA(*ArrayList\<ArrayList\<Integer>>* A) | setter του Α |
+| *void* setB(*ArrayList\<ArrayList\<Integer>>* B) | setter του Β |
+| *Set\<Integer>* getT() | getter του Τ |
+| *Set\<Integer>* getR() | getter του R |
+| *int* getTransmitted() | getter του transmitted |
+| *int* getBuffered() | getter του buffered |
+| *int* getSlotsWaited() | getter του slotsWaited |
+
+
 
 
 ### Main
@@ -67,6 +87,6 @@
 | ------- | --------- |
 | *void* main(*String[]* args) | Διαλέγουμε ποιο από τα 3 συστήματα θέλουμε να προσομοιώσουμε <br> Αφού γίνουν οι κατάλληλες αρχικοποιήσεις γίνεται η προσομοίωση για το επιλεγμένο σύστημα μέσω της simulate()|
 | *void* simulate() | Γίνονται οι 'validation' και 'performance' προσομοιώσεις χρησμιοποιώντας την Node.slotAction() και γράφονται τα δεδομένα στα .csv αρχεία |
-| *int* getNumberOfNodes() | numberOfNodes getter |
-| *int* getNumberOfChannels() | numberOfChannels getter |
-| *boolean* getValidation() | validation getter |
+| *int* getNumberOfNodes() | getter του numberOfNodes |
+| *int* getNumberOfChannels() | getter του numberOfChannels |
+| *boolean* getValidation() | getter του validation |
