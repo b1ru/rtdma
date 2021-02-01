@@ -6,7 +6,6 @@ public class Main {
     private static final int numberOfNodes = 8;
     private static final int numberOfChannels = 4;
     private static final int numberOfSlots = 100000;
-    private static long slotDuration = 0;
     private static Node[] nodes;
     private static boolean validation;
     private static FileWriter out1;
