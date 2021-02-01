@@ -23,7 +23,7 @@
 
 | Mέθοδος | Περιγραφή |
 | ------- | --------- |
-| Packet(int destination, int timeslot) | Constructor<br> Αρχικοποιεί τις 2 μεταβλητές|
+| **Packet**(*int* destination, *int* timeslot) | Constructor<br> Αρχικοποιεί τις 2 μεταβλητές|
 
 
 ### Node
