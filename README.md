@@ -1,4 +1,4 @@
-Υλοποίηση του Random Time-Division Multiple Access δικτύου που παρουσιάζεται στο [ανεβασμένο paper](./RTDMA.pdf). [^rtdma]
+Υλοποίηση του Random Time-Division Multiple Access δικτύου που παρουσιάζεται στο [ανεβασμένο paper](./RTDMA.pdf)<sup>1</sup>.
 
 ## Εκτέλεση του προγράμματος
 - Ο προσομοιωτής είναι γραμμένος σε java.
@@ -10,10 +10,10 @@
 ## Είδη προσομοίωσης
 - **Validation**
   - Παίρνουμε κάποια αποτελέσματα, τα οποία μπορούμε να συγκρίνουμε με αυτά της
-   θεωρητικής ανάλυσης που γίνεται στο paper[^validation] για να επιβεβαιώσουμε ότι ο
+   θεωρητικής ανάλυσης που γίνεται στο paper<sup>2</sup> για να επιβεβαιώσουμε ότι ο
    προσομοιωτής δουλεύει σωστά.
 - **System Performance**
-  - Μελετάμε την απόδοση του συστήματος[^performance].
+  - Μελετάμε την απόδοση του συστήματος<sup>3</sup>.
 
 ## CSV αρχεία
 - **Validation**
@@ -81,7 +81,7 @@
 | *void* configure(*int* id, *int* configuration) | Δίνει τιμές στο transmission range **T** και στο receiving range **R** του κόμβου |
 | *void* slotAction(*int* slot) | Ο αλγόριθμος που εκτελεί ο κόμβος σε ένα timeslot |
 | *int* findDestination() | Επιστρέφει έναν τυχαίο κόμβο για προορισμό |
-| *void* reset(double systemLoad) | Δίνει τιμή στο l ανάλογα το είδος της προσομοίωσης <br> Μηδενίζει τους counters <br> Αδειάζει τον buffer <br> Καλείται από την Main.main() για κάθε τιμή του systemLoad[^b] |
+| *void* reset(double systemLoad) | Δίνει τιμή στο l ανάλογα το είδος της προσομοίωσης <br> Μηδενίζει τους counters <br> Αδειάζει τον buffer <br> Καλείται από την Main.main() για κάθε τιμή του systemLoad<sup>4</sup> |
 | *void* setD(*boolean* validation) | Δίνει τιμές στον πίνακα d ανάλογα το είδος της προσομοίωσης |
 | *void* setBufferSize(*boolean* validation) | Δίνει τιμή στο bufferSize ανάλογα το είδος της προσομοίωσης|
 | *void* setA(*ArrayList\<ArrayList\<Integer>>* A) | setter του Α |
@@ -118,7 +118,10 @@
 | *int* getNumberOfChannels() | getter του numberOfChannels |
 | *boolean* getValidation() | getter του validation |
 
-[^rtdma]: See chapters 2, 4
-[^validation]: See chapter 5
-[^performance]: See chapter 5
-[^b]: system load (b) : Το άθροισμα των πιθανοτήτων δημιουργίας πακέτου όλων των κόμβων. See chapter 5
+<hr>
+
+1\.   See chapters 2, 4
+
+2,3.  See chapter 5
+
+4\.   system load (b) : Το άθροισμα των πιθανοτήτων δημιουργίας πακέτου όλων των κόμβων. See chapter 5
