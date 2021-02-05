@@ -1,4 +1,4 @@
-Υλοποίηση του Random Time-Division Multiple Access δικτύου που παρουσιάζεται στο [ανεβασμένο paper](./RTDMA.pdf).
+Υλοποίηση του Random Time-Division Multiple Access δικτύου που παρουσιάζεται στο [ανεβασμένο paper](./RTDMA.pdf). [^rtdma]
 
 ## Εκτέλεση του προγράμματος
 - Ο προσομοιωτής είναι γραμμένος σε java.
@@ -6,6 +6,33 @@
 - Δημιουργούνται .csv files με τα αποτελέσματα.
 - Ένα python script παίρνει τα .csv και τα μετατρέπει σε tables και γραφήματα
 που απεικονίζουν τα δεδομένα.
+
+## Είδη προσομοίωσης
+- **Validation**
+  - Παίρνουμε κάποια αποτελέσματα, τα οποία μπορούμε να συγκρίνουμε με αυτά της
+   θεωρητικής ανάλυσης που γίνεται στο paper[^validation] για να επιβεβαιώσουμε ότι ο
+   προσομοιωτής δουλεύει σωστά.
+- **System Performance**
+  - Μελετάμε την απόδοση του συστήματος[^performance].
+
+## CSV αρχεία
+- **Validation**
+
+  - Τρεις στήλες
+    - TP -- throughput του κόμβου
+    - Q -- μέσος αριθμός buffered πακέτων του κόμβου
+    - D -- μέση καθυστέρηση πακέτου του κόμβου
+  - 40 γραμμές
+    - 8 κόμβοι επί 5 τιμές του system load
+- **Performance**
+
+  - Δύο στήλες
+    - TP -- throughput του συστήματος
+    - D -- μέση καθυστέρηση πακέτου του συστήματος
+  - 16 γραμμές
+    - 16 τιμές του system load
+
+- Υπάρχουν 3 validation αρχεία και 3 performance, ένα για κάθε ρύθμιση του συστήματος.
 
 ## Κλάσεις
 ### Packet
@@ -54,7 +81,7 @@
 | *void* configure(*int* id, *int* configuration) | Δίνει τιμές στο transmission range **T** και στο receiving range **R** του κόμβου |
 | *void* slotAction(*int* slot) | Ο αλγόριθμος που εκτελεί ο κόμβος σε ένα timeslot |
 | *int* findDestination() | Επιστρέφει έναν τυχαίο κόμβο για προορισμό |
-| *void* reset(double systemLoad) | Δίνει τιμή στο l ανάλογα το είδος της προσομοίωσης <br> Μηδενίζει τους counters <br> Αδειάζει τον buffer <br> Καλείται από την Main.main() για κάθε τιμή του b |
+| *void* reset(double systemLoad) | Δίνει τιμή στο l ανάλογα το είδος της προσομοίωσης <br> Μηδενίζει τους counters <br> Αδειάζει τον buffer <br> Καλείται από την Main.main() για κάθε τιμή του systemLoad[^b] |
 | *void* setD(*boolean* validation) | Δίνει τιμές στον πίνακα d ανάλογα το είδος της προσομοίωσης |
 | *void* setBufferSize(*boolean* validation) | Δίνει τιμή στο bufferSize ανάλογα το είδος της προσομοίωσης|
 | *void* setA(*ArrayList\<ArrayList\<Integer>>* A) | setter του Α |
@@ -90,3 +117,8 @@
 | *int* getNumberOfNodes() | getter του numberOfNodes |
 | *int* getNumberOfChannels() | getter του numberOfChannels |
 | *boolean* getValidation() | getter του validation |
+
+[^rtdma]: See chapters 2, 4
+[^validation]: See chapter 5
+[^performance]: See chapter 5
+[^b]: system load (b) : Το άθροισμα των πιθανοτήτων δημιουργίας πακέτου όλων των κόμβων. See chapter 5
