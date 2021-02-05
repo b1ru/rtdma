@@ -12,12 +12,6 @@ TP = list(data['TP'])
 Q = list(data['Q'])
 D = list(data['D'])
 
-throughput = list()
-throughput.append(TP[0:8])
-throughput.append(TP[8:16])
-throughput.append(TP[16:24])
-throughput.append(TP[24:32])
-throughput.append(TP[32:40])
-
-for item in throughput:
-    print(item)
+tp = [TP[0:8], TP[8:16], TP[16:24], TP[24:32], TP[32:40]]
+q = [Q[0:8], Q[8:16], Q[16:24], Q[24:32], Q[32:40]]
+d = [D[0:8], D[8:16], D[16:24], D[24:32], D[32:40]]
