@@ -88,14 +88,6 @@ public class Main {
         out2.close();
     }
 
-    public static int getNumberOfNodes(){
-        return numberOfNodes;
-    }
-
-    public static int getNumberOfChannels() { return numberOfChannels; }
-
-    public static int getNumberOfSlots() { return numberOfSlots; }
-
     private static void simulate() throws IOException {
         double from, to, step;
         if (validation){
@@ -156,6 +148,12 @@ public class Main {
             }
         }
     }
+
+    public static int getNumberOfNodes(){
+        return numberOfNodes;
+    }
+
+    public static int getNumberOfChannels() { return numberOfChannels; }
 
     public static boolean getValidation(){ return validation; };
 }

@@ -12,7 +12,7 @@ public class Node {
     private double[] d;                             // destination probabilities
     private int id;
     private int transmitted;
-    private int buffered ;
+    private int buffered;
     private int slotsWaited;
 
     public Node(int id, int configuration, long seed){
@@ -23,22 +23,6 @@ public class Node {
         this.id = id;
         d = new double[Main.getNumberOfNodes()+1];
         configure(id, configuration);
-    }
-
-    public void setA(ArrayList<ArrayList<Integer>> A) {
-        this.A = A;
-    }
-
-    public void setB(ArrayList<ArrayList<Integer>> B) {
-        this.B = B;
-    }
-
-    public Set<Integer> getT() {
-        return T;
-    }
-
-    public Set<Integer> getR() {
-        return R;
     }
 
     private void configure(int id, int configuration){
@@ -205,14 +189,6 @@ public class Node {
         return -1;
     }
 
-    public int getTransmitted(){
-        return transmitted;
-    }
-
-    public int getBuffered(){ return buffered; }
-
-    public int getSlotsWaited(){ return slotsWaited; }
-
     public void reset(double systemLoad){
         // changes l, resets the counters, and clears the queue
 
@@ -256,4 +232,32 @@ public class Node {
             bufferSize = 4;
         }
     }
+
+    public void setA(ArrayList<ArrayList<Integer>> A) {
+        this.A = A;
+    }
+
+    public void setB(ArrayList<ArrayList<Integer>> B) {
+        this.B = B;
+    }
+
+    public Set<Integer> getT() {
+        return T;
+    }
+
+    public Set<Integer> getR() {
+        return R;
+    }
+
+    public int getTransmitted(){
+        return transmitted;
+    }
+
+    public int getBuffered(){ return buffered; }
+
+    public int getSlotsWaited(){ return slotsWaited; }
+
+
+
+
 }
