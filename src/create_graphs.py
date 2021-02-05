@@ -19,15 +19,29 @@ q = [Q[0:8], Q[8:16], Q[16:24], Q[24:32], Q[32:40]]
 d = [D[0:8], D[8:16], D[16:24], D[24:32], D[32:40]]
 
 fig = make_subplots(
-rows=3, cols=1,
-specs=[[{"type": "table"}],
-       [{"type": "table"}],
-       [{"type": "table"}]])
+    rows=5, cols=1,
+    shared_xaxes=True,
+    vertical_spacing=0.03,
+    specs=[[{"type": "table"}],
+           [{"type": "table"}],
+           [{"type": "table"}],
+           [{"type": "table"}],
+           [{"type": "table"}]],
+   subplot_titles=("b=0.2", "b=0.4", "b=0.6", "b=0.8", "b=1")
+)
 
-fig.add_trace(go.Table(
-    name="b=0.2", header=dict(values=['Node', 'TP', 'Q', 'D']),
-    cells=dict(values=[list(range(1,9)), tp[0], q[0], d[0]])),
-    row=1, col=1
+for i in range(5):
+    fig.add_trace(go.Table(
+        columnwidth = [1,2,2,2],
+        header=dict(values=['Node', 'TP', 'Q', 'D']),
+        cells=dict(values=[list(range(1,9)), tp[i], q[i], d[i]])),
+        row=i+1, col=1
+    )
+
+
+fig.update_layout(
+    title_text="Validation",
+    height=2000
 )
 
 fig.show()
