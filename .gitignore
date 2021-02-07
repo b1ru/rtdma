@@ -2,3 +2,6 @@
 *.iml
 out
 .attach*
+*.csv
+debugging.txt
+todo.md
