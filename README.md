@@ -1,4 +1,6 @@
 Υλοποίηση του Random Time-Division Multiple Access δικτύου που παρουσιάζεται στο [ανεβασμένο paper](./RTDMA.pdf)<sup>1</sup>.
+- Οπτικά Δίκτυα, 2021
+- Τσεκούρας-Ευαγγελίδης Βασίλειος, 3147
 
 ## Εκτέλεση του προγράμματος
 - Ο προσομοιωτής είναι γραμμένος σε java.
@@ -36,7 +38,7 @@
 
 - Υπάρχουν 3 validation αρχεία και 3 performance, ένα για κάθε ρύθμιση του συστήματος.
 
-## Ρυθμίσεις συστήματος
+## Ρυθμίσεις συστήματος<sup>5</sup>
 1. Τransmitter can be tuned to 2 channels, 2 receivers
 2. transmitter can be tuned to 1 channel,  4 receivers
 3. transmitter can be tuned to 4 channels, 1 receiver
@@ -129,6 +131,6 @@
 
 1\.   See chapters 2, 4
 
-2,3.  See chapter 5
+2,3,5.  See chapter 5
 
 4\.   system load (b) : Το άθροισμα των πιθανοτήτων δημιουργίας πακέτου όλων των κόμβων. See chapter 5
