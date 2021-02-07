@@ -74,7 +74,8 @@ def performance():
     for i in range(3):
         lines.append(ax.plot(TP[i], D[i])[0])
 
-    ax.set(xlabel="Throughput", ylabel="Delay", title="RTDMA")
+    ax.set(xlabel="Throughput", ylabel="Delay", title="Average packet delay"
+        + " versus system throughput,\nN=8, W=4, Lᵢ=4, RTDMA protocol.")
     ax.legend(lines, ('System 1', 'System 2', 'System 3'))
     plt.show()
 
