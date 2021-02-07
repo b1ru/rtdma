@@ -12,8 +12,10 @@
   - Παίρνουμε κάποια αποτελέσματα, τα οποία μπορούμε να συγκρίνουμε με αυτά της
    θεωρητικής ανάλυσης που γίνεται στο paper<sup>2</sup> για να επιβεβαιώσουμε ότι ο
    προσομοιωτής δουλεύει σωστά.
+  - Ως αποτέλεσμα θα πάρουμε tables με τις τιμές των throughput **TPᵢ**, average delay **Dᵢ** και average number of packets queued in the buffer **Qᵢ**, για κάθε κόμβο.
 - **System Performance**
   - Μελετάμε την απόδοση του συστήματος<sup>3</sup>.
+  - Ως αποτέλεσμα θα πάρουμε ένα γράφημα, το throughput του συστήματος προς την μέση καθυστέρηση.
 
 ## CSV αρχεία
 - **Validation**
@@ -33,6 +35,11 @@
     - 16 τιμές του system load
 
 - Υπάρχουν 3 validation αρχεία και 3 performance, ένα για κάθε ρύθμιση του συστήματος.
+
+## Ρυθμίσεις συστήματος
+1. Τransmitter can be tuned to 2 channels, 2 receivers
+2. transmitter can be tuned to 1 channel,  4 receivers
+3. transmitter can be tuned to 4 channels, 1 receiver
 
 ## Κλάσεις
 ### Packet
