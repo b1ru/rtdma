@@ -1,16 +1,21 @@
 import pandas
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+import matplotlib.pyplot as plt
 
 ##############
 # Validation #
 ##############
-#
+
 # Για κάθε b θα δείχνουμε κόμβο και τα TP, Q, D
-#
 
 
-def validation(conf):
+def validation():
+    for i in range(1, 4):
+        validation_single(i)
+
+
+def validation_single(conf):
     data = pandas.read_csv('../validation' + str(conf) + '.csv')
     TP = list(data['TP'])
     Q = list(data['Q'])
@@ -47,6 +52,32 @@ def validation(conf):
 
     fig.show()
 
+###############
+# PERFORMANCE #
+###############
 
-for i in range(1, 4):
-    validation(i)
+# Δείχνουμε ένα γράφημα με το througput και το delay του συστήματος για κάθε
+#   ρύθμιση.
+
+
+def performance():
+    TP = list()
+    D = list()
+
+    for i in range(1, 4):
+        data = pandas.read_csv('../performance' + str(i) + '.csv')
+        TP.append(list(data['TP']))
+        D.append(list(data['D']))
+
+    fig, ax = plt.subplots()
+    lines = list()
+    for i in range(3):
+        lines.append(ax.plot(TP[i], D[i])[0])
+
+    ax.set(xlabel="Throughput", ylabel="Delay", title="RTDMA")
+    ax.legend(lines, ('System 1', 'System 2', 'System 3'))
+    plt.show()
+
+
+validation()
+performance()
