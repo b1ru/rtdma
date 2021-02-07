@@ -75,12 +75,12 @@
 | *ArrayList\<ArrayList\<Integer>>* B | **Β<sub>i</sub>** οι κόμβοι που μπορούν να λάβουν πακέτα από το κανάλι i |
 | *Random* rand | Γεννήτρια τυχαίων αιρθμών |
 | *int* bufferSize | H χωρητικότητα του buffer του κόμβου |
-| *double* l | H πιθανότητα δημιουργίας πακέτα σε ένα timeslot |
-| *double[]* d | **d<sub>i</sub>** η πιθανότητα το πακέτα να έχει ως προορισμό τον κόμβο i |
+| *double* l | H πιθανότητα δημιουργίας πακέτου σε ένα timeslot |
+| *double[]* d | **d<sub>i</sub>** η πιθανότητα ένα νέο πακέτο να έχει ως προορισμό τον κόμβο i |
 | *int* id | Το id του κόμβου |
 | *int* transmitted | Ο αριθμός των πακέτων που μεταδόθηκαν από αυτόν τον κόμβο |
-| *int* buffered | Μετράεω πόσα πακέτα είναι στον buffer σε κάθε timeslot <br> Το άθροισμα για όλα τα timeslots είναι το **buffered** |
-| *int* slotsWaited | Μετράω πόσα timeslots περιμένει ένα πακέτο στον buffer <br> Το άθροισμα για όλα τα πακέτα που μεταδώθηκαν είναι το **slotsWaited**|
+| *int* buffered | Μετράω πόσα πακέτα είναι στον buffer σε κάθε timeslot. <br> Το άθροισμα για όλα τα timeslots είναι το **buffered**. |
+| *int* slotsWaited | Μετράω πόσα timeslots περιμένει ένα πακέτο στον buffer. <br> Το άθροισμα για όλα τα πακέτα που μεταδώθηκαν είναι το **slotsWaited**.|
 
 ##### Μέθοδοι
 
@@ -114,7 +114,7 @@
 | *int* numberOfChannels | Ο αριθμός των καναλιών |
 | *int* numberOfSlots | Πόσα timeslots θα χρησιμοποιηθούν στην προσομοίωση |
 | *Node[]* nodes | Ο πίνακας με τους κόμβους |
-| *boolean* validation | Αν θέλουμε να τρέξουμε την 'validation' προσομοίωση ή την 'performance' προσομοίωση όπως αναγράφονται στο paper |
+| *boolean* validation | Αν θέλουμε να τρέξουμε την 'validation' προσομοίωση ή την 'performance' προσομοίωση |
 | *FileWriter* out1 | Το stream για τα csv αρχεία της validation προσομοίωσης |
 | *FileWriter* out1 | Το stream για τα csv αρχεία της performance προσομοίωσης |
 
